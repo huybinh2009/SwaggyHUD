@@ -7,6 +7,7 @@ use pocketmine\plugin\Plugin;
 use pocketmine\scheduler\PluginTask;
 use pocketmine\Server;
 use pocketmine\Player;
+use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\utils\TextFormat as C;
 use pocketmine\utils\Config;
 
@@ -20,6 +21,13 @@ class Main extends PluginBase implements Listener{
     $this->getLogger()->info(C::GREEN . "Enabled!");
     $this->getServer()->getScheduler()->scheduleRepeatingTask(new SwaggyHUD($this), 1);
     $this->getLogger()->notice(C::AQUA . "Message Format: " . $format);
+  }
+  public function onDeath(PlayerDeathEvent $event){
+  	$data = new Config($this->getDataFolder() . "/data.yml", Config::YAML);
+  	$player = $event->getPlayer()->getName();
+  	$deaths = $data->get($player);
+  	$data->set($deaths+1);
+  	$data->save();
   }
   public function getMessage(){
     $config = new Config($this->getDataFolder() . "/config.yml", Config::YAML);
