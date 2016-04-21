@@ -1,4 +1,5 @@
 #Message Format: Popup, Tip, or Sidebar(expieramental)
 Format: Tip
 #Message
-Message: '&b&lWelcome to {LINE}&cMy Server!'
+#The & symbol replaces the § symbol for color coding! Use {LINE} to go down to the next line!
+Message: '&b&lWelcome to &cMy Server!'
