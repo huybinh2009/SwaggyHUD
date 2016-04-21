@@ -26,17 +26,19 @@ class Main extends PluginBase implements Listener{
   	$data = new Config($this->getDataFolder() . "/data.yml", Config::YAML);
   	$entity = $event->getEntity();
   	if($entity instanceof Player){
-        $player = $event->getEntity()->getName();
-  	$deaths = $data->get($player);
-  	$data->set($deaths+1);
+        $name = $event->getEntity()->getName();
+  	$deaths = $data->get($name);
+  	$data->set($name,$deaths+1);
   	$data->save();
   	}
   }
   public function getMessage(){
     $config = new Config($this->getDataFolder() . "/config.yml", Config::YAML);
+    $data = new Config($this->getDataFolder() . "/data.yml", Config::YAML);
     $message = $config->get("Message");
     $m = str_replace("&","§",$message);
     $msg = str_replace("{LINE}","\n",$m);
+    //$msg = str_replace("{DEATH}",$,$m);
 	return $msg;
   }
   public function getFormat(){
