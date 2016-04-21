@@ -34,12 +34,18 @@ class Main extends PluginBase implements Listener{
   }
   public function getMessage(){
     $config = new Config($this->getDataFolder() . "/config.yml", Config::YAML);
-    $data = new Config($this->getDataFolder() . "/data.yml", Config::YAML);
+    $death = $this->plugin->getStats();
     $message = $config->get("Message");
     $m = str_replace("&","§",$message);
-    $msg = str_replace("{LINE}","\n",$m);
-    //$msg = str_replace("{DEATH}",$,$m);
+    $ms = str_replace("{LINE}","\n",$m);
+    $msg = str_replace("{DEATH}",$death,$ms);
 	return $msg;
+  }
+  public function getStats(Player $event){
+  	$player = $event->getPlayer()->getName();
+  	$data = new Config($this->getDataFolder() . "/data.yml", Config::YAML);
+  	$death = $data->get($player);
+  	return $death;
   }
   public function getFormat(){
   	$config = new Config($this->getDataFolder() . "/config.yml", Config::YAML);
