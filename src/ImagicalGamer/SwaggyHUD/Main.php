@@ -60,7 +60,7 @@ class SwaggyHUD extends PluginTask {
 				$p->sendTip($message);
 				}
 				if($sidebar === "Sidebar"){
-				$p->sendTip(str_repeat(" ",10) . $message);
+				$p->sendTip("          " . $message);
 				}
 			}
 		}
