@@ -26,7 +26,7 @@ class Main extends PluginBase implements Listener{
   	$data = new Config($this->getDataFolder() . "/data.yml", Config::YAML);
   	$entity = $event->getEntity();
   	if($entity instanceof Player){
-        $player = $entity->getName();
+        $player = $event->getEntity()->getName();
   	$deaths = $data->get($player);
   	$data->set($deaths+1);
   	$data->save();
