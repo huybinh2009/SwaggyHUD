@@ -24,10 +24,13 @@ class Main extends PluginBase implements Listener{
   }
   public function onDeath(PlayerDeathEvent $event){
   	$data = new Config($this->getDataFolder() . "/data.yml", Config::YAML);
-  	$player = $event->getEntity()->getName();
+  	$entity = $event->getEntity();
+  	if($entity instanceof Player){
+        $player = $entity->getName();
   	$deaths = $data->get($player);
   	$data->set($deaths+1);
   	$data->save();
+  	}
   }
   public function getMessage(){
     $config = new Config($this->getDataFolder() . "/config.yml", Config::YAML);
