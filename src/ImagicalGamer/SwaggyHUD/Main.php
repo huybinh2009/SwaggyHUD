@@ -33,6 +33,11 @@ class Main extends PluginBase implements Listener{
 	$format = $config->get("Format");
 	return $format;
   }
+  public function getSidebar(){
+  	$config = new Config($this->getDataFolder() . "/config.yml", Config::YAML);
+	$sidebar = $config->get("Format");
+	return $sidebar;
+  }
 }
 class SwaggyHUD extends PluginTask {
   
@@ -45,6 +50,7 @@ class SwaggyHUD extends PluginTask {
 		$allplayers = $this->plugin->getServer()->getOnlinePlayers();
 		$message = $this->plugin->getMessage();
 		$format = $this->plugin->getFormat();
+		$sidebar = $this->plugin->getSidebar();
 		foreach($allplayers as $p) {
 			if($p instanceof Player) {	
                            if($format === "Popup"){
@@ -53,8 +59,8 @@ class SwaggyHUD extends PluginTask {
 				if($format === "Tip"){
 				$p->sendTip($message);
 				}
-				if($format === "Sidebar"){
-				$p->sendTip("          " . $message);
+				if($sidebar === "Sidebar"){
+				$p->sendTip(str_repeat(" ",10) . $message);
 				}
 			}
 		}
