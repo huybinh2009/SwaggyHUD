@@ -54,7 +54,11 @@ class Main extends PluginBase implements Listener{
   }
   public function getSidebar(){
   	$config = new Config($this->getDataFolder() . "/config.yml", Config::YAML);
-	$sidebar = $config->get("Format");
+	$death = $this->plugin->getStats();
+        $smessage = $config->get("Message");
+        $s = str_replace("&","§",$message);
+        $side = str_replace("{LINE}","\n                              ",$s);
+        $sidebar = str_replace("{DEATH}",$death,$side);
 	return $sidebar;
   }
 }
@@ -78,8 +82,8 @@ class SwaggyHUD extends PluginTask {
 				if($format === "Tip"){
 				$p->sendTip($message);
 				}
-				if($sidebar === "Sidebar"){
-				$p->sendTip("                              " . $message);
+				if($format === "Sidebar"){
+				$p->sendTip("                              " . $sidebar);
 				}
 			}
 		}
