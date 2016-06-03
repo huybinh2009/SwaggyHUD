@@ -1,5 +1,9 @@
-#Message Format: Popup, Tip, or Sidebar(expieramental)
-Format: Tip
 #Message
-#The & symbol replaces the § symbol for color coding! Use {LINE} to go down to the next line!
-Message: '&b&lWelcome to &cMy Server!'
+#The & symbol replaces the § symbol for color coding! 
+#Use {LINE} to go down to the next line!
+#Use {KILLS} to show the players Kills! (REQUIRES PLAYERSTATS BY IMAGICALGAMER)
+#Use {DEATHS} to show the players deaths! (REQUIRES PLAYERSTATS BY IMAGICALGAMER)
+#Use {MONEY} to show the players money! (REQUIRES ECONOMYAPI BY ONEBONE)
+Message: '&b&lWelcome to &cMy Server! Kills: {KILLS} Money: {MONEY}'
+Enable-Money: true
+Enable-Stats: true
