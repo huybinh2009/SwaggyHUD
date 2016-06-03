@@ -15,77 +15,54 @@ class Main extends PluginBase implements Listener{
 
   public function onEnable(){
     $this->saveDefaultConfig();
-    $config = new Config($this->getDataFolder() . "/config.yml", Config::YAML);
-    $format = $config->get("Format");
     $this->getServer()->getPluginManager()->registerEvents($this, $this);
-    $this->getLogger()->info(C::GREEN . "Enabled!");
     $this->getServer()->getScheduler()->scheduleRepeatingTask(new SwaggyHUD($this), 1);
-    $this->getLogger()->notice(C::AQUA . "Message Format: " . $format);
-  }
-  public function onDeath(PlayerDeathEvent $event){
-  	$data = new Config($this->getDataFolder() . "/data.yml", Config::YAML);
-  	$entity = $event->getEntity();
-  	if($entity instanceof Player){
-        $name = $event->getEntity()->getName();
-  	$deaths = $data->get($name);
-  	$data->set($name,$deaths+1);
-  	$data->save();
-  	}
-  }
-  public function getMessage(){
-    $config = new Config($this->getDataFolder() . "/config.yml", Config::YAML);
-    $death = $this->plugin->getStats();
-    $message = $config->get("Message");
-    $m = str_replace("&","§",$message);
-    $ms = str_replace("{LINE}","\n",$m);
-    $msg = str_replace("{DEATH}",$death,$ms);
-	return $msg;
-  }
-  public function getStats(Player $event){
-  	$player = $event->getPlayer()->getName();
-  	$data = new Config($this->getDataFolder() . "/data.yml", Config::YAML);
-  	$death = $data->get($player);
-  	return $death;
-  }
-  public function getFormat(){
-  	$config = new Config($this->getDataFolder() . "/config.yml", Config::YAML);
-	$format = $config->get("Format");
-	return $format;
-  }
-  public function getSidebar(){
-  	$config = new Config($this->getDataFolder() . "/config.yml", Config::YAML);
-	$death = $this->plugin->getStats();
-        $smessage = $config->get("Message");
-        $s = str_replace("&","§",$message);
-        $side = str_replace("{LINE}","\n                              ",$s);
-        $sidebar = str_replace("{DEATH}",$death,$side);
-	return $sidebar;
+    $this->getLogger()->info(C::GREEN . "Enabled!");
   }
 }
 class SwaggyHUD extends PluginTask {
   
-	public function __construct($plugin)
-	{
-		$this->plugin = $plugin;
-		parent::__construct($plugin);
-	}
-	public function onRun($tick){
-		$allplayers = $this->plugin->getServer()->getOnlinePlayers();
-		$message = $this->plugin->getMessage();
-		$format = $this->plugin->getFormat();
-		$sidebar = $this->plugin->getSidebar();
-		foreach($allplayers as $p) {
-			if($p instanceof Player) {	
-                           if($format === "Popup"){
-				$p->sendPopup($message);
-			        }
-				if($format === "Tip"){
-				$p->sendTip($message);
-				}
-				if($format === "Sidebar"){
-				$p->sendTip("                              " . $sidebar);
-				}
-			}
-		}
-	}
+  public function __construct($plugin)
+  {
+    $this->plugin = $plugin;
+    parent::__construct($plugin);
+  }
+  public function onRun($tick){
+    $config = new Config($this->plugin->getDataFolder() . "/config.yml", Config::YAML);
+    $allplayers = $this->plugin->getServer()->getOnlinePlayers();
+    foreach($allplayers as $p) {
+      if($p instanceof Player) {  
+            //Start message
+    if($config->get("Enable-Money") == true){
+      $this->economy = $this->plugin->getServer()->getPluginManager()->getPlugin("EconomyAPI");
+      $money = $this->economy->myMoney($p);
+    }
+    else{
+      $money = null;
+    }
+    if($config->get("Enable-Stats") == true){
+      $this->stats = $this->plugin->getServer()->getPluginManager()->getPlugin("PlayerStats");
+      $kd = $this->stats->getStats($p);
+      $kills = $this->stats->getKills($p);
+      $deaths = $this->stats->getDeaths($p);
+    }
+    else{
+      $kd = null;
+      $deaths = null;
+      $kills = null;
+    }
+    $message = $config->get("Message");
+    $a = str_replace("&","§",$message);
+    $ab = str_replace("{LINS}", "\n", $a);
+    $abc = str_replace("{KILLS}", $kills, $ab);
+    $abcd = str_replace("{DEATHS}",$deaths, $abc);
+    $abcde = str_replace("{DEATHS}",$deaths, $abcd);
+    $abcdef = str_replace("{KD}",$kd, $abcde);
+    $msg = str_replace("{MONEY}",$money, $abcdef);
+
+    //end message
+        $p->sendPopup($msg . C::RESET . C::RESET);
+      }
+    }
+  }
 }
