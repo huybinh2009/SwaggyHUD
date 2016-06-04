@@ -53,7 +53,7 @@ class SwaggyHUD extends PluginTask {
     }
     $message = $config->get("Message");
     $a = str_replace("&","§",$message);
-    $ab = str_replace("{LINS}", "\n", $a);
+    $ab = str_replace("{LINE}", "\n", $a);
     $abc = str_replace("{KILLS}", $kills, $ab);
     $abcd = str_replace("{DEATHS}",$deaths, $abc);
     $abcde = str_replace("{DEATHS}",$deaths, $abcd);
