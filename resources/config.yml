@@ -4,6 +4,8 @@
 #Use {KILLS} to show the players Kills! (REQUIRES PLAYERSTATS BY IMAGICALGAMER)
 #Use {DEATHS} to show the players deaths! (REQUIRES PLAYERSTATS BY IMAGICALGAMER)
 #Use {MONEY} to show the players money! (REQUIRES ECONOMYAPI BY ONEBONE)
-Message: '&b&lWelcome to &cMy Server! Kills: {KILLS} Money: {MONEY}'
+#Use {MAXONLINE} to show how much the server slots is!
+#Use {ONLINE} to show how much people on the server!
+Message: '&b&lWelcome to &cMy Server! Kills: {KILLS} Money: {MONEY} Online:{ONLINE} / {MAXONLINE}'
 Enable-Money: true
 Enable-Stats: true
