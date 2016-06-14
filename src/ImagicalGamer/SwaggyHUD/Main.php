@@ -45,6 +45,8 @@ class SwaggyHUD extends PluginTask {
       $kd = $this->stats->getStats($p);
       $kills = $this->stats->getKills($p);
       $deaths = $this->stats->getDeaths($p);
+      $online = count($this->plugin->getServer()->getOnlinePlayers());
+      $maxonline = $this->plugin->getServer()->getMaxPlayers();
     }
     else{
       $kd = null;
@@ -58,7 +60,9 @@ class SwaggyHUD extends PluginTask {
     $abcd = str_replace("{DEATHS}",$deaths, $abc);
     $abcde = str_replace("{DEATHS}",$deaths, $abcd);
     $abcdef = str_replace("{KD}",$kd, $abcde);
-    $msg = str_replace("{MONEY}",$money, $abcdef);
+    $abcdefg = str_replace("{ONLINE}",$online, $abcdef);
+    $abcdefgh = str_replace("{MAXONLINE}",$maxonline, $abcdefg);
+    $msg = str_replace("{MONEY}",$money, $abcdefgh);
 
     //end message
         $p->sendPopup($msg . C::RESET . C::RESET);
